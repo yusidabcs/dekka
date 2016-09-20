@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Apiv1;
+
 use App\Transformer\NewsTransformer;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
