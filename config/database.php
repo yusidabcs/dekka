@@ -80,11 +80,11 @@ return [
 
         'mongodb' => array(
             'driver'   => 'mongodb',
-            'host'     => 'ds021694.mlab.com',
-            'port'     => 21694,
-            'username' => 'bcscoder',
-            'password' => 'balicsnet2314',
-            'database' => 'localnews'
+            'host' => env('DB_HOST', ''),
+            'port' => env('DB_PORT', ''),
+            'database' => env('DB_DATABASE', ''),
+            'username' => env('DB_USERNAME', ''),
+            'password' => env('DB_PASSWORD', ''),
         ),
 
     ],

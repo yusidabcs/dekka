@@ -28,6 +28,19 @@ class NewsController extends Controller
 		if($request->has('title')){
 			$news = $news->where('title','regexp','/.*'.$request->get('title').'.*/i');
 		}
+
+
+		$lastid = request()->get('last_id',null);
+		if($lastid){
+			$n = NewsMongo::find($lastid);
+			$news = $news->where('created_at','>',$n->created_at);
+			$news = $news->get();
+			$resource = new Collection($news, new NewsTransformer);
+			$manager = new Manager;
+			$data = $manager->createData($resource);
+	        
+	        return \Response::make($data->toArray());
+		}
 		$news = $news->take($limit)->get();
 		if(count($news) > 0)
 			$newCursor = base64_encode($news->last()->created_at);

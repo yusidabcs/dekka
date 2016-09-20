@@ -213,47 +213,10 @@ Route::get('category',function (){
 
 
 Route::get('cache',function(){
-	//$news = NewsMongo::where('_id','=','57891c8a10575cc1759f8863');
-	$news = App\NewsMongo::where('categories.name','all',['Tabanan'])->orderBy('created_at','desc');
-	
-	$rs = $news->paginate();
-
-	$news = $rs->getCollection();
-	$resource = new Collection($news, new NewsTransformer);
-	$resource->setPaginator(new IlluminatePaginatorAdapter($rs));
-	$manager = new Manager;
-	$data = $manager->createData($resource);
-    return $data->toArray();//\Response::make($data->toArray());
-
-	$html = strip_tags($html);
-	//remove new line
-    $html = trim(preg_replace('/\s+/', ' ', $html));
-    //remove image link
-    $html = preg_replace('/<a href=\"(.*?)\">(.*?)<\/a>/', "\\2", $html);
-
-    $html = preg_replace('%(.*?)<p>\s*(<img[^<]+?)\s*</p>(.*)%is', '$1$2$3', $html);
-
-    //remove width and height
-    $html = preg_replace( '/(width|height)="\d*"\s/', "", $html );
-    //remove
-	return substr($html,0,200);
-	$crawler = new Crawler($html);
-	$crawler = $crawler->filter('img');
-
-	foreach ($crawler as $key => $value) {
-		dd($value->attr('img'));
-	}
-	return $crawler->count();
-	$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
-
-	return 1;
-
-	NewsMongo::truncate();
-	return;
-	//return NewsMongo::with('categories')->first();
-	$name = "Internasional";
-	$news = App\AccountMongo::get();
-	return $news;
+	$user = App\UserMongo::create([
+		'email' => 'admin@mail.com',
+		'password' => bcrypt('secret2314')
+		]);
 });
 
 
