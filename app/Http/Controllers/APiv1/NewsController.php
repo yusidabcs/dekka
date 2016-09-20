@@ -10,6 +10,7 @@ use League\Fractal\Pagination\Cursor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\NewsMongo;
+
 class NewsController extends Controller
 {
 	public function index(Request $request){
