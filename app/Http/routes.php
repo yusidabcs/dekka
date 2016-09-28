@@ -47,7 +47,7 @@ Route::get('/feeds/{id}', function($id)
 {
 
 	try {
-		$account = AccountMongo::find($id);
+		$account = App\AccountMongo::find($id);
 		$etag = '268834055b41155d67c5d4438cb046f4';
 		$last_modified = '';
         $reader = new Reader;
@@ -69,7 +69,7 @@ Route::get('/feeds/{id}', function($id)
 				$crawler = $crawler->filter('img');
 				$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
 				
-	        	$news = NewsMongo::where('title',$value->title)->first();
+	        	$news = App\NewsMongo::where('title',$value->title)->first();
 	        	
 	        	if(!$news){
 
@@ -79,7 +79,7 @@ Route::get('/feeds/{id}', function($id)
 	        			$category[] = ['name' => strtolower($cat)];
 	        		}
 	        		
-	        		$news = NewsMongo::firstOrNew([
+	        		$news = App\NewsMongo::firstOrNew([
 	        			'title' => $value->title,
 	        			'content' => cleanHtml($value->content),
 	        			'url'	=> $value->url,
@@ -259,7 +259,7 @@ Route::get('fcm',function(){
 			'Authorization' => 'key=AIzaSyBmO-BmQz9fpIPrA9SJx-ebYKgiyNyn7rs',
 		],
 	    'json' => [
-	    	'to' => 'fXfGL2QoU9A:APA91bHK806EaO6Zpa5DY_Wcs4rGDgbAB7fxT06vTJfL08pyXzwuCRC5NIHeHHPV1ZzucGwRp3fhAV7KPTwzncOOKOq89mhdSmsS67o2H30sXaFN5Zg_eD4ZaLjLbl2LnRfkwU0-IjOP',
+	    	'to' => 'dIxaPGG2lAk:APA91bGrbuThqVdrUFsscwO8SXIHlsbRmCI6NU0pw3M7x26iWOWucgq18TPkBHzvKeQ5SO0mo9gmdnlXh76rKVXsKFIypaavT2Ione52doFYZxyiEGbDWbH6fNX7vEJEV6lTdq_cDz4Q',
 	    	'time_to_live' => 60,
 			 "data" => $n
 	    ]
