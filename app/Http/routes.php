@@ -241,6 +241,7 @@ Route::get('fcm',function(){
 	$url = "https://fcm.googleapis.com/fcm/send";
 	$client = new GuzzleHttp\Client(['base_uri' => $url]);
 	$news = App\NewsMongo::orderBy('created_at','desc')->first();
+	$device = App\DeviceMongo::orderBy('_id','desc')->first();
 
 	$resource = new League\Fractal\Resource\Item($news, new NewsTransformer);
 
@@ -256,10 +257,10 @@ Route::get('fcm',function(){
 	$res = $client->request('POST', '', [
 		'headers'        => [
 			'Content-Type' => 'application/json',
-			'Authorization' => 'key=AIzaSyBmO-BmQz9fpIPrA9SJx-ebYKgiyNyn7rs',
+			'Authorization' => 'key=AIzaSyBAhqWw42QnNTCoye_ZyIWQrTC1_eSJ88o',
 		],
 	    'json' => [
-	    	'to' => 'dIxaPGG2lAk:APA91bGrbuThqVdrUFsscwO8SXIHlsbRmCI6NU0pw3M7x26iWOWucgq18TPkBHzvKeQ5SO0mo9gmdnlXh76rKVXsKFIypaavT2Ione52doFYZxyiEGbDWbH6fNX7vEJEV6lTdq_cDz4Q',
+	    	'to' => $device->registration_ids,
 	    	'time_to_live' => 60,
 			 "data" => $n
 	    ]
