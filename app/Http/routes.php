@@ -10,6 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::get('/','HomeController@index');
 
 Route::group(['prefix' => 'admin'],function(){
 	Route::resource('login','Admin\LoginController');
@@ -18,9 +19,11 @@ Route::group(['prefix' => 'admin'],function(){
 	Route::resource('account','Admin\AccountController');
 	Route::resource('news','Admin\NewsController');
 	Route::resource('categories','Admin\CategoryController');
+	Route::resource('users','Admin\UserController');
 });
 
 Route::group(['prefix' => 'apiv1'],function(){
+
 	Route::resource('devices','ApiV1\DeviceController');
 	Route::resource('news','ApiV1\NewsController');
 	Route::get('news/similar/{id}','ApiV1\NewsController@similar');
@@ -62,7 +65,7 @@ Route::get('/feeds/{id}', function($id)
 	        );
 
 	        $feeds = $parser->execute();
-
+	        $no = 0;
 	        foreach ($feeds->getItems() as $key => $value) {
 	        	$html = $value->content;
 				$crawler = new Crawler($html);
@@ -72,7 +75,7 @@ Route::get('/feeds/{id}', function($id)
 	        	$news = App\NewsMongo::where('title',$value->title)->first();
 	        	
 	        	if(!$news){
-
+	        		$no ++;
 	        		$category = array();
 
 	        		foreach ($value->getTag('category') as $key => $cat) {
@@ -89,7 +92,11 @@ Route::get('/feeds/{id}', function($id)
 	        			'categories' => $category
 	        		]);
 	        		$news = $account->news()->save($news);
-	        		send_fcm($news->_id);
+	        		if($no == 1){
+	        			send_fcm($news->_id);	
+	        		}
+	        		
+
 	        		
 	        	}else{
 	        		echo $news->title . ' : uda ada!';
@@ -138,65 +145,7 @@ Route::get('/authors', function()
 		'feed_type'	=> '1',
 	]);
 });
-Route::get('/', function()
-{
-	try {
 
-		$accounts = App\AccountMongo::all();
-		return $accounts;
-		$account = $accounts[1];
-		$etag = '268834055b41155d67c5d4438cb046f4';
-		$last_modified = '';
-        $reader = new Reader;
-
-        $resource = $reader->download($account->feed_url);
-	    // Return true if the remote content has changed
-	    if ($resource->isModified()) {
-
-	        $parser = $reader->getParser(
-	            $resource->getUrl(),
-	            $resource->getContent(),
-	            $resource->getEncoding()
-	        );
-
-	        $feeds = $parser->execute();
-
-	        foreach ($feeds->getItems() as $key => $value) {
-	        	$html = $value->content;
-				$crawler = new Crawler($html);
-				$crawler = $crawler->filter('img');
-				$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
-				
-	        	$news = App\NewsMongo::firstOrNew([
-	        			'title' => $value->title,
-	        			'content' => $value->content,
-	        			'url'	=> $value->url,
-	        			'created_at' => $value->date,
-	        			'image'		=> $img,
-	        		]);
-	        	if(!$news->_id){
-	        		$news = $account->news()->save($news);
-	        		foreach ($value->getTag('category') as $key => $cat) {
-	        			$category = new App\CategoryMongo(['name' => $cat]);
-
-	        			$news->categories()->save($category);
-	        		}
-	        		
-	        	}
-	        }
-	        
-	    }
-	    else {
-
-	        echo 'Not modified, nothing to do!';
-	    }
-    }
-    catch (PicoFeedException $e) {
-        echo 'Exception thrown ===> "'.$e->getMessage().'"'.PHP_EOL;
-        return false;
-    }
-	//return View::make('hello');
-});
 
 Route::get('category',function (){
 	//NewsMongo::truncate();
@@ -240,24 +189,21 @@ Route::get('fcm',function(){
 
 	$url = "https://fcm.googleapis.com/fcm/send";
 	$client = new GuzzleHttp\Client(['base_uri' => $url]);
-	$news = App\NewsMongo::orderBy('created_at','desc')->first();
+	$news = App\NewsMongo::select(['_id','title'])->orderBy('created_at','desc')->first();
+
 	$device = App\DeviceMongo::orderBy('_id','desc')->first();
-
-	$resource = new League\Fractal\Resource\Item($news, new NewsTransformer);
-
-	$manager = new League\Fractal\Manager;
-	$data = $manager->createData($resource);
+    
+    
     
     $n = [];
-    $n['app_name'] = 'Lontar';
-    foreach ($data->toArray()['data'] as $key => $value) {
-    	if($key != 'content')
-    		$n[$key] = $value;
-    }
+    $n['app_name'] = 'Dekka!';
+    $n['_id'] = $news->_id;
+    $n['title'] = $news->title;
+
 	$res = $client->request('POST', '', [
 		'headers'        => [
 			'Content-Type' => 'application/json',
-			'Authorization' => 'key=AIzaSyBAhqWw42QnNTCoye_ZyIWQrTC1_eSJ88o',
+			'Authorization' =>'key='.config('app.server_key'),
 		],
 	    'json' => [
 	    	'to' => $device->registration_ids,

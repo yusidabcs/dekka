@@ -18,6 +18,10 @@
 			<li>
 				<a href="{{ url('admin/users') }}"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Member</a>
 			</li>
+
+			<li>
+				<a href="{{ url('admin/categories') }}"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Kategori</a>
+			</li>
 			
 		</ul>
 

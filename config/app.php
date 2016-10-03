@@ -1,7 +1,8 @@
 <?php
 
 return [
-
+    
+    'server_key' => 'AIzaSyA9z4z_p8EWouwFxvZMMc7qGTEwWWeD-EM',
     /*
     |--------------------------------------------------------------------------
     | Application Environment

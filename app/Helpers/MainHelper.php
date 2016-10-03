@@ -3,25 +3,17 @@ function send_fcm($id){
 	$url = "https://fcm.googleapis.com/fcm/send";
 	$client = new GuzzleHttp\Client(['base_uri' => $url]);
 	$news = App\NewsMongo::find($id);
-	$resource = new League\Fractal\Resource\Item($news, new App\Transformer\NewsTransformer);
-	$manager = new League\Fractal\Manager;
-	$data = $manager->createData($resource);
-
 	$devices = App\DeviceMongo::lists('registration_ids');
   
     $n = [];
-    foreach ($data->toArray()['data'] as $key => $value) {
-    	$n[$key] = $value;
-    }
-
-    foreach ($data->toArray()['data']['author']['data'] as $key => $value) {
-    	$n['auhor_'.$key] = $value;
-    }
+    $n['app_name'] = 'Dekka!';
+    $n['_id'] = $news->_id;
+    $n['title'] = $news->title;
 
 	$res = $client->request('POST', '', [
 		'headers'        => [
 			'Content-Type' => 'application/json',
-			'Authorization' => 'key=AIzaSyBAhqWw42QnNTCoye_ZyIWQrTC1_eSJ88o',
+			'Authorization' => 'key='.config('app.server_key'),
 		],
 	    'json' => [
 	    	'registration_ids' => $devices,
@@ -29,4 +21,5 @@ function send_fcm($id){
 			 "data" => $n
 	    ]
 	]);
+	return ($res->getBody());
 }
