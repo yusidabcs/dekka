@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class NewsController extends BaseController
 {
 	public function index(){
-		$news = NewsMongo::orderBy('created_at')->get();
+		$news = NewsMongo::orderBy('created_at')->paginate(50);
 
 		$content = view('admin.news.index')
 			->with('news',$news);

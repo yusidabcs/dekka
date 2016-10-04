@@ -22,4 +22,9 @@ class HomeController extends Controller {
 		return view()->make('hello');
 	}
 
+	public function tos()
+	{
+		return view()->make('tos');
+	}
+
 }

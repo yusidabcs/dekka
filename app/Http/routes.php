@@ -11,6 +11,7 @@
 |
 */
 Route::get('/','HomeController@index');
+Route::get('/tos','HomeController@tos');
 
 Route::group(['prefix' => 'admin'],function(){
 	Route::resource('login','Admin\LoginController');
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'apiv1'],function(){
 use PicoFeed\Reader\Reader;
 use Symfony\Component\DomCrawler\Crawler;
 use PicoFeed\Config\Config;
+use PicoFeed\Scraper\Scraper;
 
 use App\Transformer\NewsTransformer;
 use League\Fractal\Resource\Collection;
@@ -63,15 +65,30 @@ Route::get('/feeds/{id}', function($id)
 	            $resource->getContent(),
 	            $resource->getEncoding()
 	        );
-
+	        $format = $reader->detectFormat($resource->getContent());
 	        $feeds = $parser->execute();
+
 	        $no = 0;
 	        foreach ($feeds->getItems() as $key => $value) {
-	        	$html = $value->content;
-				$crawler = new Crawler($html);
-				$crawler = $crawler->filter('img');
-				$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
-				
+
+
+	        	if(strpos($account->feed_url,"rss") === false){
+	        		$html = $value->content;
+					$crawler = new Crawler($html);
+					$crawler = $crawler->filter('img');
+					$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
+	        	}else{
+
+	        		$config = new Config();
+					$config->setFilterWhitelistedTags();
+					$grabber = new Scraper($config);
+					$grabber->setUrl($value->url);
+					$grabber->execute();
+					$html = $grabber->getFilteredContent();
+					$crawler = new Crawler($html);
+					$crawler = $crawler->filter('img');
+					$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
+	        	}
 	        	$news = App\NewsMongo::where('title',$value->title)->first();
 	        	
 	        	if(!$news){
@@ -81,23 +98,19 @@ Route::get('/feeds/{id}', function($id)
 	        		foreach ($value->getTag('category') as $key => $cat) {
 	        			$category[] = ['name' => strtolower($cat)];
 	        		}
-	        		
 	        		$news = App\NewsMongo::firstOrNew([
 	        			'title' => $value->title,
-	        			'content' => cleanHtml($value->content),
+	        			'content' => cleanHtml($html),
 	        			'url'	=> $value->url,
-	        			'created_at' => $value->date == '1970-01-01 08:33:36' ? date("Y-m-d H:i:s") : $value->date,
+	        			'created_at' => ($value->date->format('Y') < (date('Y'))) ? date("Y-m-d H:i:s") : $value->date,
 	        			'image'		=> $img,
 	        			'view'		=> 0,
 	        			'categories' => $category
 	        		]);
 	        		$news = $account->news()->save($news);
 	        		if($no == 1){
-	        			send_fcm($news->_id);	
-	        		}
-	        		
-
-	        		
+	        			send_fcm($news->_id);
+	        		}	
 	        	}else{
 	        		echo $news->title . ' : uda ada!';
 	        	}
@@ -121,15 +134,27 @@ Route::get('/feeds/{id}', function($id)
 Route::get('lists',function(){
 	try {
 
-	    $reader = new Reader;
-	    $resource = $reader->download('http://baliberkarya.com');
+		
+		$tag_attribute_whitelist = array(
+		);
+		$config = new Config();
+		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
-	    $feeds = $reader->find(
-	        $resource->getUrl(),
-	        $resource->getContent()
-	    );
+		$grabber = new Scraper($config);
+		$grabber->setUrl("http://bali.tribunnews.com/2016/10/04/pelecehan-seksual-di-monang-maning-gadis-dibekap-lalu");
+		$grabber->execute();
 
-	    print_r($feeds);
+		// Get raw HTML content
+		//echo $grabber->getRawContent();
+
+		// Get relevant content
+		//echo $grabber->getRelevantContent();
+
+		// Get filtered relevant content
+		echo $grabber->getFilteredContent();
+
+		// Return true if there is relevant content
+		//var_dump($grabber->hasRelevantContent());
 	}
 	catch (PicoFeedException $e) {
 	    // Do something...
@@ -162,10 +187,8 @@ Route::get('category',function (){
 
 
 Route::get('cache',function(){
-	$user = App\UserMongo::create([
-		'email' => 'admin@mail.com',
-		'password' => bcrypt('secret2314')
-		]);
+	$account = App\AccountMongo::find('57f34e2a6aa7fc0cb97e5f61');
+	return $account->news()->delete();
 });
 
 

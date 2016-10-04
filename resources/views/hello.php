@@ -96,8 +96,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 		<!-- //header -->
 		<!-- footer -->
-		<div class="footer">
-			<!-- container -->
+		<!-- <div class="footer">
 			<div class="container">
 				<div class="footer-info">
 					<img src="images/8.png" alt="" />
@@ -113,8 +112,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<p> © 2015 Appload. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
 				</div>
 			</div>
-			<!-- //container -->
-		</div>
+		</div> -->
 		<!-- //footer -->
 		<script type="text/javascript">
 									$(document).ready(function() {
