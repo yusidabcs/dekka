@@ -84,11 +84,12 @@ Route::get('/feeds/{id}', function($id)
 					$grabber = new Scraper($config);
 					$grabber->setUrl($value->url);
 					$grabber->execute();
-					$html = $grabber->getFilteredContent();
+					$html = $grabber->getRelevantContent();
 					$crawler = new Crawler($html);
 					$crawler = $crawler->filter('img');
 					$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
 	        	}
+
 	        	$news = App\NewsMongo::where('title',$value->title)->first();
 	        	
 	        	if(!$news){
@@ -136,22 +137,26 @@ Route::get('lists',function(){
 
 		
 		$tag_attribute_whitelist = array(
+			'br' => array(),
+    'a' => array(),
+    'img' => array(),
+    'div' => array(),
 		);
 		$config = new Config();
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
 		$grabber = new Scraper($config);
-		$grabber->setUrl("http://bali.tribunnews.com/2016/10/04/pelecehan-seksual-di-monang-maning-gadis-dibekap-lalu");
+		$grabber->setUrl("http://beritadewata.com/Ekonomi-dan-Bisnis/Berita-Ekonomi/Tekan-Inflasi,-BI-Harap-Peran-TPID-Merata-di-Seluruh-Indonesia.html");
 		$grabber->execute();
 
 		// Get raw HTML content
 		//echo $grabber->getRawContent();
 
 		// Get relevant content
-		//echo $grabber->getRelevantContent();
+		echo cleanHtml($grabber->getRelevantContent());
 
 		// Get filtered relevant content
-		echo $grabber->getFilteredContent();
+		//echo $grabber->getFilteredContent();
 
 		// Return true if there is relevant content
 		//var_dump($grabber->hasRelevantContent());
@@ -187,7 +192,7 @@ Route::get('category',function (){
 
 
 Route::get('cache',function(){
-	$account = App\AccountMongo::find('57f34e2a6aa7fc0cb97e5f61');
+	$account = App\AccountMongo::find('57f366216aa7fc0cb81fe4b2');
 	return $account->news()->delete();
 });
 
@@ -199,6 +204,8 @@ function cleanHtml($html){
     $html = preg_replace('/<a href=\"(.*?)\">(.*?)<\/a>/', "\\2", $html);
 
     $html = preg_replace('%(.*?)<p>\s*(<img[^<]+?)\s*</p>(.*)%is', '$1$2$3', $html);
+
+    $html = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $html);
 
     //remove width and height
     $html = preg_replace( '/(width|height)="\d*"\s/', "", $html );
