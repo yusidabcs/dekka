@@ -71,7 +71,6 @@ Route::get('/feeds/{id}', function($id)
 	        $no = 0;
 	        foreach ($feeds->getItems() as $key => $value) {
 
-
 	        	if(strpos($account->feed_url,"rss") === false){
 	        		$html = $value->content;
 					$crawler = new Crawler($html);
@@ -99,11 +98,14 @@ Route::get('/feeds/{id}', function($id)
 	        		foreach ($value->getTag('category') as $key => $cat) {
 	        			$category[] = ['name' => strtolower($cat)];
 	        		}
+
+	        		$date = new DateTime($value->date->format("c"));
+					$date->setTimezone(new DateTimeZone(config('app.timezone')));
 	        		$news = App\NewsMongo::firstOrNew([
 	        			'title' => $value->title,
 	        			'content' => cleanHtml($html),
 	        			'url'	=> $value->url,
-	        			'created_at' => ($value->date->format('Y') < (date('Y'))) ? date("Y-m-d H:i:s") : $value->date->format("Y-m-d H:i:s"),
+	        			'created_at' => ($value->date->format('Y') < (date('Y'))) ? date('Y-m-d H:i:s') : $date->format('Y-m-d H:i:s'),
 	        			'image'		=> $img,
 	        			'view'		=> 0,
 	        			'categories' => $category
@@ -117,12 +119,9 @@ Route::get('/feeds/{id}', function($id)
 	        		echo $news->title . ' : uda ada! <br>';
 	        	}
 	        }
-
 	        echo 'success!';
-	        
 	    }
 	    else {
-
 	        echo 'Not modified, nothing to do!';
 	    }
     }
@@ -145,7 +144,7 @@ Route::get('lists',function(){
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
 		$grabber = new Scraper($config);
-		$grabber->setUrl("http://bali.antaranews.com//berita//96692//berkah-ratusan-itik-bagi-lelaki-tuna-daksa");
+		$grabber->setUrl("http://balebengong.net/kabar-anyar/2016/10/05/membangun-budaya-nobar-dan-kritis-film.html");
 		$grabber->execute();
 
 		// Get raw HTML content
