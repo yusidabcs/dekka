@@ -103,17 +103,18 @@ Route::get('/feeds/{id}', function($id)
 	        			'title' => $value->title,
 	        			'content' => cleanHtml($html),
 	        			'url'	=> $value->url,
-	        			'created_at' => ($value->date->format('Y') < (date('Y'))) ? date("Y-m-d H:i:s") : $value->date,
+	        			'created_at' => ($value->date->format('Y') < (date('Y'))) ? date("Y-m-d H:i:s") : $value->date->format("Y-m-d H:i:s"),
 	        			'image'		=> $img,
 	        			'view'		=> 0,
 	        			'categories' => $category
 	        		]);
 	        		$news = $account->news()->save($news);
+	        		send_fcm($news->_id);
 	        		if($no == 1){
-	        			send_fcm($news->_id);
+	        			
 	        		}	
 	        	}else{
-	        		echo $news->title . ' : uda ada!';
+	        		echo $news->title . ' : uda ada! <br>';
 	        	}
 	        }
 
@@ -137,16 +138,13 @@ Route::get('lists',function(){
 
 		
 		$tag_attribute_whitelist = array(
-			'br' => array(),
-    'a' => array(),
-    'img' => array(),
-    'div' => array(),
+			
 		);
 		$config = new Config();
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
 		$grabber = new Scraper($config);
-		$grabber->setUrl("http://beritadewata.com/Ekonomi-dan-Bisnis/Berita-Ekonomi/Tekan-Inflasi,-BI-Harap-Peran-TPID-Merata-di-Seluruh-Indonesia.html");
+		$grabber->setUrl("http://bali.antaranews.com//berita//96692//berkah-ratusan-itik-bagi-lelaki-tuna-daksa");
 		$grabber->execute();
 
 		// Get raw HTML content
@@ -227,6 +225,7 @@ Route::get('fcm',function(){
     
     $n = [];
     $n['app_name'] = 'Dekka!';
+    $n['type'] = 'news_notif';
     $n['_id'] = $news->_id;
     $n['title'] = $news->title;
 
