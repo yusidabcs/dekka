@@ -80,7 +80,7 @@ Route::get('/feeds/{id}', function($id)
 	        	}else{
 
 	        		$config = new Config();
-					$config->setFilterWhitelistedTags();
+	        		$config->setGrabberRulesFolder(base_path().'/rules');
 					$grabber = new Scraper($config);
 					$grabber->setUrl($value->url);
 					$grabber->execute();
@@ -141,6 +141,7 @@ Route::get('lists',function(){
 			
 		);
 		$config = new Config();
+		$config->setGrabberRulesFolder(base_path().'/rules');
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
 		$grabber = new Scraper($config);
