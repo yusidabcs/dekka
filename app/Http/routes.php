@@ -76,8 +76,8 @@ Route::get('/feeds/{id}', function($id)
 					$crawler = new Crawler($html);
 					$crawler = $crawler->filter('img');
 
-					if($value->enclosure_url != ''){
-						$img = $value->enclosure_url;
+					if($value->getEnclosureUrl() != ''){
+						$img = $value->getEnclosureUrl();
 					}else{
 						$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
 					}
