@@ -56,7 +56,7 @@ Route::get('/feeds/{id}', function($id)
 		$etag = '268834055b41155d67c5d4438cb046f4';
 		$last_modified = '';
         $reader = new Reader;
-        $resource = $reader->download('http://feed.beritabali.com/');
+        $resource = $reader->download($account->feed_url);
 	    // Return true if the remote content has changed
 	    if ($resource->isModified()) {
 
