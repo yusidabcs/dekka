@@ -56,7 +56,7 @@ Route::get('/feeds/{id}', function($id)
 		$etag = '268834055b41155d67c5d4438cb046f4';
 		$last_modified = '';
         $reader = new Reader;
-        $resource = $reader->download($account->feed_url);
+        $resource = $reader->download('http://feed.beritabali.com/');
 	    // Return true if the remote content has changed
 	    if ($resource->isModified()) {
 
@@ -75,7 +75,13 @@ Route::get('/feeds/{id}', function($id)
 	        		$html = $value->content;
 					$crawler = new Crawler($html);
 					$crawler = $crawler->filter('img');
-					$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
+
+					if($value->enclosure_url != ''){
+						$img = $value->enclosure_url;
+					}else{
+						$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
+					}
+					
 	        	}else{
 
 	        		$config = new Config();
@@ -217,7 +223,8 @@ Route::get('fcm',function(){
 
 	$url = "https://fcm.googleapis.com/fcm/send";
 	$client = new GuzzleHttp\Client(['base_uri' => $url]);
-	$news = App\NewsMongo::select(['_id','title'])->orderBy('created_at','desc')->first();
+	$news = App\NewsMongo::select(['_id','title'])->orderBy('created_at','desc')->take(2)->get();
+	$news = $news[0 ];
 
 	$device = App\DeviceMongo::orderBy('_id','desc')->first();
     
