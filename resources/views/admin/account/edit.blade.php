@@ -43,6 +43,17 @@
 										<input id="email" name="logo" type="text" placeholder="" class="form-control" value="{{$account->logo}}">
 									</div>
 								</div>
+
+								<!-- Email input-->
+								<div class="form-group">
+									<label class="col-md-3 control-label" for="email">Type</label>
+									<div class="col-md-9">
+										<select name="feed_type">
+											<option value="1" {{ $account->feed_type == 1 ? 'selected' : '' }}>Feed</option>
+											<option value="2" {{ $account->feed_type == 2 ? 'selected' : '' }}>Rss</option>
+										</select>
+									</div>
+								</div>
 								<!-- Form actions -->
 								<div class="form-group">
 									<div class="col-md-12 widget-right">

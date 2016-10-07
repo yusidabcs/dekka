@@ -77,6 +77,12 @@ class NewsController extends Controller
 		$news = NewsMongo::find($id);
 		$news->view = $news->view + 1;
 		$news->save();
+
+		$resource = new Item($news, new NewsTransformer);
+		$manager = new Manager;
+		$data = $manager->createData($resource);
+       
+        return response()->make($data->toArray());
 	}
 
 	public function show($id){

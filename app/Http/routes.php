@@ -55,7 +55,17 @@ Route::get('/feeds/{id}', function($id)
 		$account = App\AccountMongo::find($id);
 		$etag = '268834055b41155d67c5d4438cb046f4';
 		$last_modified = '';
-        $reader = new Reader;
+
+		$tag_attribute_whitelist = array(
+		    'br' => array(),
+		    'a' => array(),
+		    'img' => array(),
+		    'div' => array(),
+		);
+
+		$config = new Config();
+		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
+		$reader = new Reader($config);
         $resource = $reader->download($account->feed_url);
 	    // Return true if the remote content has changed
 	    if ($resource->isModified()) {
@@ -71,8 +81,9 @@ Route::get('/feeds/{id}', function($id)
 	        $no = 0;
 	        foreach ($feeds->getItems() as $key => $value) {
 
-	        	if(strpos($account->feed_url,"rss") === false){
+	        	if($account->feed_type == 1){
 	        		$html = $value->content;
+	        		
 					$crawler = new Crawler($html);
 					$crawler = $crawler->filter('img');
 
@@ -83,8 +94,6 @@ Route::get('/feeds/{id}', function($id)
 					}
 					
 	        	}else{
-
-	        		$config = new Config();
 	        		$config->setGrabberRulesFolder(base_path().'/rules');
 					$grabber = new Scraper($config);
 					$grabber->setUrl($value->url);
@@ -93,8 +102,8 @@ Route::get('/feeds/{id}', function($id)
 					$crawler = new Crawler($html);
 					$crawler = $crawler->filter('img');
 					$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
+					
 	        	}
-
 	        	$news = App\NewsMongo::where('title',$value->title)->first();
 	        	
 	        	if(!$news){
