@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{{$news->title}}</title>
-
 		<!-- Start SmartBanner configuration -->
 	<meta name="smartbanner:title" content="Dekka News">
 	<meta name="smartbanner:author" content="Bcodes">
@@ -18,6 +17,19 @@
 	<meta name="smartbanner:button-url-google" content="https://play.google.com/store/apps/details?id=net.ngide.dekka23">
 	<meta name="smartbanner:enabled-platforms" content="android">
 	<!-- End SmartBanner configuration -->
+
+	<!-- Facebook Open Graph Meta Tags -->
+	<meta property="og:title" content="{{ $news->title }}" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="{{ $news->url }}" />
+	<meta property="og:image" content="{{ $news->image }}" />
+	<meta property="og:site_name" content="dekkanews.com" />
+	<meta property="fb:admins" content="" />
+	<meta property="fb:app_id" content="1651021911881015" />
+	<?php 
+	$n = new App\Transformer\NewsTransformer();
+	?>
+	<meta property="og:description" content="{{ $n->short($news->content) }}" />
 
 </head>
 <link rel="stylesheet" href="{{ url('css/smartbanner.min.css') }}">
@@ -33,9 +45,8 @@
 .container {
     height: 0;
     width: 100%;
-    padding-bottom: 100%;
+    height: 100%;
     overflow: hidden;
-    position: relative;
 }
 .container iframe {
 	border: 0;
@@ -45,14 +56,26 @@
     height: 100%;
     position: absolute;
 }
+.visit_original{
+	position: absolute;
+	bottom: 0;
+	width: 125px;
+	padding:8px 16px;
+	text-align: center;
+	background-color: #eee;
+	left: 40%;
+	z-index: 100;
+}
 
 </style>
 <script src="{{ url('js/smartbanner.min.js') }}"></script>
 <body>
-
+<div class="visit_original">
+	<a href="">Kunjungi Website</a>
+</div>
 <div class="wrapper">
     <div class="container">
-        <iframe src="{{$news->url}}">
+        <iframe src="{{$news->url}}"></iframe>
     </div>
 </div>
 
