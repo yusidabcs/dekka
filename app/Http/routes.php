@@ -12,6 +12,7 @@
 */
 Route::get('/','HomeController@index');
 Route::get('/tos','HomeController@tos');
+Route::resource('news','NewsController');
 
 Route::group(['prefix' => 'admin'],function(){
 	Route::resource('login','Admin\LoginController');

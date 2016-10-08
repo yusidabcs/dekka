@@ -25,7 +25,7 @@ class NewsTransformer extends TransformerAbstract
         return [
             '_id'    =>  $news->id,
             'title' => ucwords($news->title),
-            'url'    => $news->url,
+            'url'    => url('news/'.$news->id),
             'content'    => (string) $this->cleanHtml($news->content),
             'image'    => str_replace("-300x200", "",$news->image),
             'thumb'    => $news->image,

@@ -4,9 +4,12 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class NewsMongo extends Eloquent{
 
-	protected $fillable = array('title','url','content','account_id','image','created_at','categories');
+	protected $fillable = array('title','url','content','account_id','image','created_at','categories','views');
 
 	protected $collection = 'news';
+
+    protected $dates = array('created_at');
+
 
 	public function author()
     {
