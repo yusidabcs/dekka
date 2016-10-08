@@ -17,9 +17,40 @@
 
 </head>
 <link rel="stylesheet" href="{{ url('css/smartbanner.min.css') }}">
+
+<style type="text/css">
+	body{
+		margin: 0;
+		padding: 0;
+	}
+	.wrapper {
+    width: 100%;
+}
+.container {
+    height: 0;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.container iframe {
+	border: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+</style>
 <script src="{{ url('js/smartbanner.min.js') }}"></script>
 <body>
-<iframe src="{{$news->url}}" style="border: 0; position:absolute; top:0; left:0; right:0; bottom:0; width:100%; height:100%">
+
+<div class="wrapper">
+    <div class="container">
+        <iframe src="{{$news->url}}">
+    </div>
+</div>
 
 </body>
 </html>
