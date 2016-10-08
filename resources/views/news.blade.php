@@ -21,7 +21,7 @@
 	<!-- Facebook Open Graph Meta Tags -->
 	<meta property="og:title" content="{{ $news->title }}" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="{{ $news->url }}" />
+	<meta property="og:url" content="{{ url()->current() }}" />
 	<meta property="og:image" content="{{ $news->image }}" />
 	<meta property="og:site_name" content="dekkanews.com" />
 	<meta property="fb:admins" content="" />
