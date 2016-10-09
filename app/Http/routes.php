@@ -127,10 +127,7 @@ Route::get('/feeds/{id}', function($id)
 	        			'categories' => $category
 	        		]);
 	        		$news = $account->news()->save($news);
-	        		
-	        		if($no == 1){
-	        			send_fcm($news->_id);	
-	        		}	
+	        	
 	        	}else{
 	        		echo $news->title . ' : uda ada! <br>';
 	        	}

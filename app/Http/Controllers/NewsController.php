@@ -20,7 +20,12 @@ class NewsController extends Controller {
 
 	public function index()
 	{
-		//return view()->make('hello');
+		//select a random news with image in range this time;
+		$time = new \DateTime(date('Y-m-d H:m:s'));
+		$time_before = $time->sub(new \DateInterval('PT3H'));
+		$news = NewsMongo::with('author')->orderBy('created_at','desc')->where('created_at','>',$time_before)->get();
+		$random = random_int(0, count($news)-1);
+		send_fcm($news[$random]->_id);
 	}
 
 	public function show($id)
