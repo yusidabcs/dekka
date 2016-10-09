@@ -161,7 +161,8 @@ return [
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         'Jenssegers\Mongodb\Auth\PasswordResetServiceProvider',
         Collective\Html\HtmlServiceProvider::class,
-        LaravelFCM\FCMServiceProvider::class 
+        LaravelFCM\FCMServiceProvider::class,
+        Roumen\Feed\FeedServiceProvider::class,
 
     ],
 
@@ -213,6 +214,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
+        'Feed' => Roumen\Feed\Feed::class,
     ],
 
 ];

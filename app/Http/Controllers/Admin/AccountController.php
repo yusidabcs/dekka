@@ -46,6 +46,7 @@ class AccountController extends BaseController
 		$account->name = $request->get('name');
 		$account->feed_url = $request->get('feed_url');
 		$account->logo = $request->get('logo');
+		$account->feed_type = $request->get('feed_type',1);
 		$account->save();
 
 		return redirect()->to('admin/account');
