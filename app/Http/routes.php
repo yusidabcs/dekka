@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin'],function(){
 Route::group(['prefix' => 'apiv1'],function(){
 
 	Route::resource('devices','ApiV1\DeviceController');
+	Route::get('news/featured','ApiV1\NewsController@featured');
 	Route::resource('news','ApiV1\NewsController');
 	Route::get('news/similar/{id}','ApiV1\NewsController@similar');
 	Route::resource('categories','ApiV1\CategoryController');
@@ -105,6 +106,7 @@ Route::get('/feeds/{id}', function($id)
 					$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
 					
 	        	}
+	        	
 	        	$news = App\NewsMongo::where('title',$value->title)->first();
 	        	
 	        	if(!$news){
@@ -157,7 +159,7 @@ Route::get('lists',function(){
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
 		$grabber = new Scraper($config);
-		$grabber->setUrl("http://balebengong.net/kabar-anyar/2016/10/05/membangun-budaya-nobar-dan-kritis-film.html");
+		$grabber->setUrl("http://bali.antaranews.com/berita/96898/bupati-badung-keluarkan-surat-edaran");
 		$grabber->execute();
 
 		// Get raw HTML content

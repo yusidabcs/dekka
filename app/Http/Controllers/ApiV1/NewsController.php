@@ -58,6 +58,19 @@ class NewsController extends Controller
         return response()->make($data->toArray());
 	}
 
+	public function featured(Request $request){
+		
+		$news = NewsMongo::orderBy('created_at','desc')
+			->where('image','!=','')
+			->take(5)->get();
+		$resource = new Collection($news, new NewsTransformer);
+
+		$manager = new Manager;
+		$data = $manager->createData($resource);
+        
+        return response()->make($data->toArray());
+	}
+
 	public function similar($id){
 		$news = NewsMongo::find($id);
 		$news = NewsMongo::where('account_id',$news->account_id)
