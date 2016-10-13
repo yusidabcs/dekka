@@ -8,19 +8,19 @@ function send_fcm($id){
   	$n = [];
 	$time = date("H");
     if ($time < "12") {
-        $n['app_name'] = 'Pagi Dekka!';
+        $n['app_name'] = 'Pagi, '.$news->title;
     } else
     /* If the time is grater than or equal to 1200 hours, but less than 1700 hours, so good afternoon */
     if ($time >= "12" && $time < "17") {
-        $n['app_name'] = 'Berita Siang Dekka!';
+        $n['app_name'] = 'Berita Siang';
     } else
     /* Should the time be between or equal to 1700 and 1900 hours, show good evening */
     if ($time >= "17" && $time < "19") {
-        $n['app_name'] = 'Sore, Udah baca berita ini?';
+        $n['app_name'] = 'Sore, ada berita..';
     } else
     /* Finally, show good night if the time is greater than or equal to 1900 hours */
     if ($time >= "19") {
-        $n['app_name'] = 'Selamat malam, terbaru!';
+        $n['app_name'] = 'Berita malam ini!';
     }
     
     $n['_id'] = $news->_id;
