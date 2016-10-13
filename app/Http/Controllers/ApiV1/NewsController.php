@@ -61,6 +61,7 @@ class NewsController extends Controller
 	public function featured(Request $request){
 		
 		$news = NewsMongo::orderBy('created_at','desc')
+			->orderBy('view','desc')
 			->where('image','!=','')
 			->take(5)->get();
 		$resource = new Collection($news, new NewsTransformer);

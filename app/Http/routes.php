@@ -276,7 +276,7 @@ Route::get('feed', function(){
     if (!$feed->isCached())
     {
        // creating rss feed with our most recent 20 posts
-       $posts = \App\NewsMongo::orderBy('created_at', 'desc')->take(20)->get();
+       $posts = \App\NewsMongo::orderBy('created_at', 'desc')->where('image','!=','')->take(20)->get();
 
        // set your feed's title, description, link, pubdate and language
        $feed->title = 'DekkaNews';
