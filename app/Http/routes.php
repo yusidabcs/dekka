@@ -62,7 +62,6 @@ Route::get('/feeds/{id}', function($id)
 		    'br' => array(),
 		    'a' => array(),
 		    'img' => array(),
-		    'div' => array(),
 		);
 
 		$config = new Config();
@@ -93,6 +92,12 @@ Route::get('/feeds/{id}', function($id)
 						$img = $value->getEnclosureUrl();
 					}else{
 						$img = ((count($crawler) > 0) ? $crawler->first()->attr('src') : '');
+					}
+
+					$html = str_replace("\n\n", "</p><p>", $value->getContent());
+					$html = "<p>" . $html . "</p>";
+					if($value->getEnclosureUrl() != ''){
+						$html = '<img src="'.$value->getEnclosureUrl().'">'.$html;
 					}
 					
 	        	}else{
@@ -150,7 +155,42 @@ Route::get('/feeds/{id}', function($id)
 Route::get('lists',function(){
 	try {
 
-		
+		$tag_attribute_whitelist = array(
+		    'br' => array(),
+		    'a' => array(),
+		    'img' => array(),
+		    'div' => []
+		);
+
+		$config = new Config();
+		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
+		$reader = new Reader($config);
+        $resource = $reader->download('http://metrobali.com/feed');
+	    // Return true if the remote content has changed
+	    if ($resource->isModified()) {
+
+	        $parser = $reader->getParser(
+	            $resource->getUrl(),
+	            $resource->getContent(),
+	            $resource->getEncoding()
+	        );
+	        $format = $reader->detectFormat($resource->getContent());
+	        $feeds = $parser->execute();
+
+	        $no = 0;
+	        foreach ($feeds->getItems() as $key => $value) {
+	        	
+	        	$html = str_replace("\n\n", "</p><p>", $value->getContent());
+				$html = "<p>" . $html . "</p>";
+				if($value->getEnclosureUrl() != ''){
+					$html = '<img src="'.$value->getEnclosureUrl().'">'.$html;
+				}
+				
+	        	return cleanHtml($html);
+	        }
+	    }
+	    return 1;
+
 		$tag_attribute_whitelist = array(
 			
 		);
@@ -159,7 +199,7 @@ Route::get('lists',function(){
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 
 		$grabber = new Scraper($config);
-		$grabber->setUrl("http://bali.antaranews.com/berita/96898/bupati-badung-keluarkan-surat-edaran");
+		$grabber->setUrl("http://baliberkarya.com/index.php/read/2016/10/14/201610140026/Waspadalah-Polda-Bali-Kerahkan-Satgas-Operasi-Tangkap-Pejabat-Terindikasi-Pungli.html");
 		$grabber->execute();
 
 		// Get raw HTML content
@@ -222,6 +262,10 @@ function cleanHtml($html){
 
     //remove width and height
     $html = preg_replace( '/(width|height)="\d*"\s/', "", $html );
+
+    //remove empty p
+    $html = preg_replace('/<p[^>]*><\\/p[^>]*>/', '', $html); 
+    $html = preg_replace('/<p[^>]*> <\\/p[^>]*>/', '', $html);
 
     $html = htmlspecialchars_decode($html);
     //remove
