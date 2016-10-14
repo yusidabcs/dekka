@@ -163,6 +163,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
         Roumen\Feed\FeedServiceProvider::class,
+        'Jenssegers\Agent\AgentServiceProvider',
 
     ],
 
@@ -215,6 +216,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'Feed' => Roumen\Feed\Feed::class,
+        'Agent' => 'Jenssegers\Agent\Facades\Agent',
     ],
 
 ];

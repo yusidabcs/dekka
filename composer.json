@@ -14,7 +14,8 @@
         "brozot/laravel-fcm": "^1.0",
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
-        "roumen/feed": "^2.10"
+        "roumen/feed": "^2.10",
+        "jenssegers/agent": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

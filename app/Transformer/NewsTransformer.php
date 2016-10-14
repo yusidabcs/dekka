@@ -25,7 +25,7 @@ class NewsTransformer extends TransformerAbstract
         return [
             '_id'    =>  $news->id,
             'title' => ucwords($news->title),
-            'url'    => url('http://dekkanews.com/news/'.$news->id),
+            'url'    => url('http://dekkanews.com/news/'.$news->id.'?from=apps'),
             'content'    => (string) $this->cleanHtml($news->content),
             'image'    => str_replace("-300x200", "",$news->image),
             'thumb'    => $news->image,
