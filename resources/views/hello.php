@@ -84,7 +84,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<a href="#"><img src="images/1.png" alt="" /></a>
 							</div> -->
 							<div class="banner-button">
-								<a href="{{ url("https://play.google.com/store/apps/details?id=net.ngide.dekka23") }}"><img src="images/2.png" alt="" /></a>
+								<a href="https://play.google.com/store/apps/details?id=net.ngide.dekka23"><img src="images/2.png" alt="" /></a>
 							</div>
 							<div class="clearfix"> </div>
 						</div>
