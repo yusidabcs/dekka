@@ -31,7 +31,9 @@ class NewsController extends Controller {
 	public function show($id)
 	{
 		$news = NewsMongo::find($id);
-		return redirect()->to($news->url.'?source=dekkanews');
+		$news->view = $news->view + 1;
+		$news->save();
+		//return redirect()->to($news->url.'?source=dekkanews');
 		return view()->make('news')
 			->with('news',$news);
 	}
