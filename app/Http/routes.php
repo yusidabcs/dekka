@@ -99,7 +99,7 @@ Route::get('/feeds/{id}', function($id)
 					if($value->getEnclosureUrl() != ''){
 						$html = '<img src="'.$value->getEnclosureUrl().'">'.$html;
 					}
-					
+					return $html;
 	        	}else{
 	        		$config->setGrabberRulesFolder(base_path().'/rules');
 					$grabber = new Scraper($config);
@@ -165,7 +165,7 @@ Route::get('lists',function(){
 		$config = new Config();
 		$config->setFilterWhitelistedTags($tag_attribute_whitelist);
 		$reader = new Reader($config);
-        $resource = $reader->download('http://metrobali.com/feed');
+        $resource = $reader->download('http://beritabali.com/feed');
 	    // Return true if the remote content has changed
 	    if ($resource->isModified()) {
 

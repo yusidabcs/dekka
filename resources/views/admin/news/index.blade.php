@@ -26,6 +26,7 @@
 						        <th data-field="created_at"  data-sortable="true">Created</th>
 						        <th data-field="price" data-sortable="true">Author</th>
 						        <th data-field="read" data-sortable="true">Read</th>
+						        <th></th>
 						    </tr>
 						    </thead>
 						    <tbody>
@@ -36,6 +37,9 @@
 						    		<td>{{ $n->created_at}}</td>
 						    		<td>{{ ($n->author) ? $n->author->name : ''}}</td>
 						    		<td>{{ $n->view }}</td>
+						    		<td>
+						    			<a href="{{ url('news/'.$n->id) }}" target="_blank" class="btn btn-info">show</a>
+						    		</td>
 						    	</tr>
 						    @endforeach
 						    </tbody>
