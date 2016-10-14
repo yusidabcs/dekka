@@ -32,8 +32,8 @@ class NewsController extends Controller {
 	public function show(Request $request,$id)
 	{
 		$news = NewsMongo::find($id);
-		//$news->view = $news->view + 1;
-		//$news->save();
+		$news->view = $news->view + 1;
+		$news->save();
 		$agent = new Agent();
 		if($agent->isMobile() && $request->get('from') != 'apps'){
 			return view()->make('interstitial')
