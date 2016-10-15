@@ -99,7 +99,6 @@ Route::get('/feeds/{id}', function($id)
 					if($value->getEnclosureUrl() != ''){
 						$html = '<img src="'.$value->getEnclosureUrl().'">'.$html;
 					}
-					return $html;
 	        	}else{
 	        		$config->setGrabberRulesFolder(base_path().'/rules');
 					$grabber = new Scraper($config);
