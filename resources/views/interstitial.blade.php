@@ -27,6 +27,7 @@
 	</style>
 </head>
 <body>
+	@if(@$news)
 	<div style="position: absolute;top: 0;left: 0;z-index: 1;width: 100%;text-align: center;">
 		<div class="row">
 			<div class="col-md-12">
@@ -36,6 +37,7 @@
 			</div>
 		</div>
 	</div>
+	@endif
 	<div class="container fill">
 		<div id="map">
 			<div class="row">

@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Jenssegers\Agent\Agent;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller {
 
@@ -17,8 +19,12 @@ class HomeController extends Controller {
 	|
 	*/
 
-	public function index()
+	public function index(Request $request)
 	{
+		$agent = new Agent();	
+		if($agent->isMobile() && $request->get('source') == 'fb'){
+			return view()->make('interstitial');
+		}
 		return view()->make('hello');
 	}
 
