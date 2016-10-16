@@ -26,11 +26,12 @@ class NewsTransformer extends TransformerAbstract
             '_id'    =>  $news->id,
             'title' => ucwords($news->title),
             'url'    => url('http://dekkanews.com/news/'.$news->id.'?from=apps'),
-            'content'    => (string) $this->cleanHtml($news->content),
+
+            'content'    => (string) '',//$this->cleanHtml($news->content),
             'image'    => str_replace("-300x200", "",$news->image),
             'thumb'    => $news->image,
             'short_content'    => (string) $this->short($news->content),
-            //'categories'   => $news->categories,
+            'categories'   => $news->categories,
             'created_at'    => (string) $news->created_at,
             'categories' => $news->categories,
             'view'    => (int) $news->view,
@@ -84,7 +85,7 @@ class NewsTransformer extends TransformerAbstract
         //remove width and height
         $html = preg_replace( '/(width|height)="\d*"\s/', "", $html );
 
-        $chr_map = array(
+       /* $chr_map = array(
            // Windows codepage 1252
            "\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
            "\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
@@ -112,7 +113,7 @@ class NewsTransformer extends TransformerAbstract
         );
         $chr = array_keys  ($chr_map); // but: for efficiency you should
         $rpl = array_values($chr_map); // pre-calculate these two arrays
-        $html = str_replace($chr, $rpl, html_entity_decode($html, ENT_QUOTES, "UTF-8"));
+        $html = str_replace($chr, $rpl, html_entity_decode($html, ENT_QUOTES, "UTF-8"));*/
 
         $html = strip_tags($html);
 
