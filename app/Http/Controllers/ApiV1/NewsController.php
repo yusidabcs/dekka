@@ -44,8 +44,6 @@ class NewsController extends Controller
 	        return \Response::make($data->toArray());
 		}
 		$news = $news->take($limit)->get();
-
-
 		if(count($news) > 0)
 			$newCursor = base64_encode($news->last()->created_at);
 		
@@ -57,7 +55,7 @@ class NewsController extends Controller
 		$manager = new Manager;
 		$data = $manager->createData($resource);
         
-        return $data->toArray();//response()->make($data->toArray());
+        return response()->make($data->toArray());
 	}
 
 	public function featured(Request $request){
