@@ -67,5 +67,12 @@
 			</div>
 		</div> <!-- This one wants to be 100% height -->
 	</div>
+	<script type="text/javascript">
+		
+		setTimeout(function(){
+			window.location.replace("https://play.google.com/store/apps/details?id=net.ngide.dekka23");
+		},3000);
+		
+	</script>
 </body>
 </html>
