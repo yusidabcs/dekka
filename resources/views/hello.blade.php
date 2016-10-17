@@ -4,7 +4,11 @@
 <title>Dekka - News Reader</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Baca berita bali, aplikas baca berita, berita bali" />
+<meta name="keywords" content="Baca berita bali, aplikasi baca berita, berita bali" />
+<meta name="description" content="Dekkanews adalah Aplikasi yang membantu kamu untuk mencari dan membaca berita khususnya di Bali dan Indonesia. Ratusan berita dan topik terbaru dari beberapa sumber berita terpecaya akan memenuhi kebutuhan informasi harian kamu. Tanpa harus repot lagi membuat masing-masing website berita tapi cukup dengan satu aplikasi saja." />
+<link rel="shortcut icon" href="{{ url('images/favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url('images/favicon.ico') }}" type="image/x-icon">
+
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
@@ -75,7 +79,7 @@
 						</h1>
 
 						<h2>Dekka adalah <span>Aplikasi</span> yang membantu kamu untuk mencari dan membaca berita khususnya di Bali dan Indonesia.</h2>
-						<p>Ratusan berita dan topik terbaru dari beberapa sumber berita terpecaya akan memenuhi kebutuhan informasi harian kamu. Tanpa harus repot lagi membuat masing-masing website berita tapi cukup dengan satu aplikas dekka saja.</p>
+						<p>Ratusan berita dan topik terbaru dari beberapa sumber berita terpecaya akan memenuhi kebutuhan informasi harian kamu. Tanpa harus repot lagi membuat masing-masing website berita tapi cukup dengan satu aplikasi dekka saja.</p>
 						<div class="banner-buttons">
 							<!-- <div class="banner-button">
 								<a href="#"><img src="images/1.png" alt="" /></a>

@@ -4,7 +4,10 @@
 	<title>Dekka - News Reader</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Baca berita bali, aplikas baca berita, berita bali" />
+	<meta name="keywords" content="Baca berita bali, aplikasi baca berita, berita bali" />
+	<meta name="description" content="Dekkanews adalah Aplikasi yang membantu kamu untuk mencari dan membaca berita khususnya di Bali dan Indonesia. Ratusan berita dan topik terbaru dari beberapa sumber berita terpecaya akan memenuhi kebutuhan informasi harian kamu. Tanpa harus repot lagi membuat masing-masing website berita tapi cukup dengan satu aplikasi saja." />
+	<link rel="shortcut icon" href="{{ url('images/favicon.ico') }}" type="image/x-icon">
+	<link rel="icon" href="{{ url('images/favicon.ico') }}" type="image/x-icon">
 	<link href="{{ url('css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all">
 	<style type="text/css">
 		#map {

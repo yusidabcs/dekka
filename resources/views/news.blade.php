@@ -31,6 +31,9 @@
 	?>
 	<meta property="og:description" content="{{ $n->short($news->content) }}" />
 
+	<meta name="keywords" content="Baca berita bali, aplikasi baca berita, berita bali" />
+	<meta name="description" content="Dekkanews adalah Aplikasi yang membantu kamu untuk mencari dan membaca berita khususnya di Bali dan Indonesia. Ratusan berita dan topik terbaru dari beberapa sumber berita terpecaya akan memenuhi kebutuhan informasi harian kamu. Tanpa harus repot lagi membuat masing-masing website berita tapi cukup dengan satu aplikasi saja." />
+
 </head>
 <link rel="stylesheet" href="{{ url('css/smartbanner.min.css') }}">
 
