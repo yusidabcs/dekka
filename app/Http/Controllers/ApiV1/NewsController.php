@@ -35,13 +35,13 @@ class NewsController extends Controller
 		$lastid = request()->get('last_id',null);
 		if($lastid){
 			$n = NewsMongo::find($lastid);
+
 			$news = $news->where('created_at','>',$n->created_at);
-			$news = $news->get();
+			$news = $news->take(20)->get();
 			$resource = new Collection($news, new NewsTransformer);
 			$manager = new Manager;
 			$data = $manager->createData($resource);
-
-	        return \Response::make($data->toArray());
+			return \Response::make($data->toArray());
 		}
 		$news = $news->take($limit)->get();
 		if(count($news) > 0)
