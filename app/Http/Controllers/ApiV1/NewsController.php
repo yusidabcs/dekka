@@ -22,7 +22,7 @@ class NewsController extends Controller
 			$news = NewsMongo::orderBy('created_at','desc')->where('created_at','<',new \DateTime(base64_decode($currentCursor)));
 		} else {
 		    $news = NewsMongo::orderBy('created_at','desc');
-		}	
+		}
 		if($request->has('category')){
 			$news = $news->where('categories.name','regexp','/.*'.$request->get('category').'.*/i');
 		}
@@ -40,13 +40,13 @@ class NewsController extends Controller
 			$resource = new Collection($news, new NewsTransformer);
 			$manager = new Manager;
 			$data = $manager->createData($resource);
-	        
+
 	        return \Response::make($data->toArray());
 		}
 		$news = $news->take($limit)->get();
 		if(count($news) > 0)
 			$newCursor = base64_encode($news->last()->created_at);
-		
+
 		$cursor = new Cursor($currentCursor, $previousCursor, $newCursor, $news->count());
 
 		$resource = new Collection($news, new NewsTransformer);
@@ -54,12 +54,12 @@ class NewsController extends Controller
 
 		$manager = new Manager;
 		$data = $manager->createData($resource);
-        
+
         return response()->make($data->toArray());
 	}
 
 	public function featured(Request $request){
-		
+
 		$news = NewsMongo::orderBy('created_at','desc')
 			->orderBy('view','desc')
 			->where('image','!=','')
@@ -68,7 +68,7 @@ class NewsController extends Controller
 
 		$manager = new Manager;
 		$data = $manager->createData($resource);
-        
+
         return response()->make($data->toArray());
 	}
 
@@ -83,7 +83,7 @@ class NewsController extends Controller
 		$resource = new Collection($news, new NewsTransformer);
 		$manager = new Manager;
 		$data = $manager->createData($resource);
-        
+
         return response()->make($data->toArray());
 	}
 
@@ -94,7 +94,7 @@ class NewsController extends Controller
 		$resource = new Item($news, new NewsTransformer);
 		$manager = new Manager;
 		$data = $manager->createData($resource);
-        
+
         return response()->make($data->toArray());
 	}
 
@@ -103,7 +103,7 @@ class NewsController extends Controller
 		$resource = new Item($news, new NewsTransformer);
 		$manager = new Manager;
 		$data = $manager->createData($resource);
-        
+
         return response()->make($data->toArray());
 	}
 }

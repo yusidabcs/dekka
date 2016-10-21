@@ -115,9 +115,8 @@ class NewsTransformer extends TransformerAbstract
         $chr = array_keys  ($chr_map); // but: for efficiency you should
         $rpl = array_values($chr_map); // pre-calculate these two arrays
         $html = str_replace($chr, $rpl, html_entity_decode($html, ENT_QUOTES, "UTF-8"));*/
-
         $html = strip_tags($html);
+        return substr($html, 0, strpos($html, ' ', 200));
 
-        return substr($html, 0, strlen($html) > 200 ? 200 : strlen($html));
     }
 }
