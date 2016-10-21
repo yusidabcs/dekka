@@ -37,7 +37,7 @@ class NewsController extends Controller
 			$n = NewsMongo::find($lastid);
 
 			$news = $news->where('created_at','>',$n->created_at);
-			$news = $news->take(20)->get();
+			$news = $news->take(5)->get();
 			$resource = new Collection($news, new NewsTransformer);
 			$manager = new Manager;
 			$data = $manager->createData($resource);
