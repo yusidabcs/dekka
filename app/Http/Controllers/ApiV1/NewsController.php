@@ -17,7 +17,7 @@ class NewsController extends Controller
 		$currentCursor = $request->get('cursor', null);
 		$previousCursor = $request->get('previous', null);
 		$newCursor = null;
-		$limit = $request->get('limit', 10);
+	$limit = $request->get('limit', 10);
 		if ($currentCursor) {
 			$news = NewsMongo::orderBy('created_at','desc')->where('created_at','<',new \DateTime(base64_decode($currentCursor)));
 		} else {

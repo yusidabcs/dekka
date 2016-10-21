@@ -21,7 +21,7 @@ class NewsTransformer extends TransformerAbstract
      */
     public function transform(NewsMongo $news)
     {
-        
+
         return [
             '_id'    =>  $news->id,
             'title' => ucwords($news->title),
@@ -52,7 +52,7 @@ class NewsTransformer extends TransformerAbstract
 
     public function includeCategories(NewsMongo $news)
     {
-        
+
         $categories = $news->categories();
 
         return $this->collection($categories, new CategoryTransformer);
@@ -74,9 +74,10 @@ class NewsTransformer extends TransformerAbstract
     }
 
     public function short($html){
-        
+
 
         $html = trim(preg_replace('/\s+/', ' ', $html));
+
         //remove image link
         $html = preg_replace('/<a href=\"(.*?)\">(.*?)<\/a>/', "\\2", $html);
 

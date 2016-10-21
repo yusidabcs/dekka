@@ -38,7 +38,12 @@
 						    		<td>{{ ($n->author) ? $n->author->name : ''}}</td>
 						    		<td>{{ $n->view }}</td>
 						    		<td>
+						    			<a href="{{ url('admin/news/'.$n->id.'/edit') }}" class="btn btn-success">edit</a>
 						    			<a href="{{ url('news/'.$n->id) }}" target="_blank" class="btn btn-info">show</a>
+
+						    			{{Form::open(['url' => url('admin/news/'.$n->id), 'method' => 'delete'])}}
+						    			<input type="submit" value="hapus">
+						    			{{Form::close()}}
 						    		</td>
 						    	</tr>
 						    @endforeach
