@@ -17,7 +17,7 @@ class NewsController extends Controller
 		$currentCursor = $request->get('cursor', null);
 		$previousCursor = $request->get('previous', null);
 		$newCursor = null;
-	$limit = $request->get('limit', 10);
+		$limit = $request->get('limit', 10);
 		if ($currentCursor) {
 			$news = NewsMongo::orderBy('created_at','desc')->where('created_at','<',new \DateTime(base64_decode($currentCursor)));
 		} else {
@@ -37,7 +37,7 @@ class NewsController extends Controller
 			$n = NewsMongo::find($lastid);
 
 			$news = $news->where('created_at','>',$n->created_at);
-			$news = $news->take(5)->get();
+			$news = $news->take(20)->get();
 			$resource = new Collection($news, new NewsTransformer);
 			$manager = new Manager;
 			$data = $manager->createData($resource);
